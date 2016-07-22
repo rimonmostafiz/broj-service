@@ -1,11 +1,11 @@
-package com.broj.service.impl;
+package com.broj.service;
 
 import com.broj.model.CompileRequest;
 import com.broj.model.CompileResponse;
-import com.broj.service.Compile;
 import com.broj.service.engine.CompileStatus;
 import com.broj.service.engine.Compiler;
 import com.broj.service.engine.ProcessBuilderFactory;
+import com.broj.util.PathUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +24,16 @@ public class CompileImpl implements Compile {
 
     @Override
     public CompileResponse compile(CompileRequest request) {
-        ProcessBuilder processBuilder = ProcessBuilderFactory
-                .getProcessBuilder(request.getSourceFileType(), request.getSourceFilePath());
-        CompileStatus status = compiler.compile(processBuilder, request.getSourceFilePath());
+        ProcessBuilder processBuilder = ProcessBuilderFactory.getProcessBuilder(request.getSourceFileType(),
+                        PathUtil.fileNameFromPath(request.getSourceFilePath()),
+                        request.getUserName());
+
+        CompileStatus status = compiler.compile(processBuilder,
+                PathUtil.filePath(request.getSourceFilePath()));
+
         if (status == CompileStatus.COMPILE_ERROR) {
-            return new CompileResponse("COMPILE_ERROR"); // should use enum type
+            return new CompileResponse(CompileStatus.COMPILE_ERROR);
         }
-        return null;
+        return new CompileResponse(CompileStatus.COMPILE_SUCCESS);
     }
 }

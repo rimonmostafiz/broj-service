@@ -2,12 +2,14 @@ package com.broj.service.engine;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
 
 /**
  * Created by seal on 7/22/2016.
  */
+@Service
 public class CompilerImpl implements Compiler {
 
     private static final Logger logger = LoggerFactory.getLogger(CompilerImpl.class);
