@@ -5,5 +5,8 @@ package com.broj.service.engine;
  */
 public enum CompileStatus {
     COMPILE_SUCCESS,
-    COMPILE_ERROR
+    COMPILE_ERROR,
+    TIME_LIMIT_EXIT,
+    RUN_TIME_ERROR,
+    EXECUTION_SUCCESS
 }

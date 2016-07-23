@@ -24,16 +24,29 @@ public class CompileImpl implements Compile {
 
     @Override
     public CompileResponse compile(CompileRequest request) {
-        ProcessBuilder processBuilder = ProcessBuilderFactory.getProcessBuilder(request.getSourceFileType(),
+        ProcessBuilder processBuilder = ProcessBuilderFactory.getProcessBuilderForCompile(request.getSourceFileType(),
                         PathUtil.fileNameFromPath(request.getSourceFilePath()),
-                        request.getUserName());
+                        request.getUserName()); //what would be the target compiled file name ???
 
-        CompileStatus status = compiler.compile(processBuilder,
+        CompileStatus compileStatus = compiler.compile(processBuilder,
                 PathUtil.filePath(request.getSourceFilePath()));
 
-        if (status == CompileStatus.COMPILE_ERROR) {
+        if (compileStatus == CompileStatus.COMPILE_ERROR) {
+            logger.info("{}", CompileStatus.COMPILE_ERROR);
             return new CompileResponse(CompileStatus.COMPILE_ERROR);
         }
-        return new CompileResponse(CompileStatus.COMPILE_SUCCESS);
+        logger.info("{}", CompileStatus.COMPILE_SUCCESS);
+
+        ProcessBuilder executeProcess = ProcessBuilderFactory.getProcessBuilderForExecution(request.getSourceFileType(),
+                request.getUserName());
+
+        CompileStatus executionStatus = compiler.execute(executeProcess,
+                PathUtil.filePath(request.getSourceFilePath()),
+                request.getInputFilePath(),
+                PathUtil.filePath(request.getSourceFilePath()) + "out.txt",
+                2000);
+
+        logger.info("Execution status {}", executionStatus);
+        return new CompileResponse(executionStatus);
     }
 }

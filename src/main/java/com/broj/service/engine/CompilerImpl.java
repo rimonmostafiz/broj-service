@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by seal on 7/22/2016.
@@ -43,5 +44,28 @@ public class CompilerImpl implements Compiler {
         }
 
         return CompileStatus.COMPILE_ERROR;
+    }
+
+    @Override
+    public CompileStatus execute(ProcessBuilder processBuilder, String fileLocation,
+                                 String inputFilePath, String outputFilePath,
+                                 long timeInMillis) {
+        processBuilder.directory(new File(fileLocation));
+        processBuilder.redirectInput(new File(inputFilePath));
+        processBuilder.redirectErrorStream(true);
+        processBuilder.redirectOutput(new File(outputFilePath));
+
+        try {
+            Process process = processBuilder.start();
+            if (!process.waitFor(timeInMillis, TimeUnit.MILLISECONDS))
+                return CompileStatus.TIME_LIMIT_EXIT;
+            int exitCode = process.exitValue();
+            if (exitCode != 0)
+                return CompileStatus.RUN_TIME_ERROR;
+        } catch (Exception e) {
+            logger.info("Error in code compilation");
+        }
+
+        return CompileStatus.EXECUTION_SUCCESS;
     }
 }
