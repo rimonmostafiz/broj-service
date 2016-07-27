@@ -8,5 +8,6 @@ public enum CompileStatus {
     COMPILE_ERROR,
     TIME_LIMIT_EXIT,
     RUN_TIME_ERROR,
-    EXECUTION_SUCCESS
+    EXECUTION_SUCCESS,
+    EXECUTION_ERROR
 }

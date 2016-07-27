@@ -1,5 +1,6 @@
 package com.broj.service.engine;
 
+import com.sun.org.apache.regexp.internal.RE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class CompilerImpl implements Compiler {
     public CompileStatus compile(ProcessBuilder processBuilder, String fileLocation) {
         logger.info("Code compilation started...");
         boolean compiled = true;
+        logger.info("file location, {}", fileLocation);
         processBuilder.directory(new File(fileLocation));
         processBuilder.redirectErrorStream(true);
 
@@ -50,9 +52,11 @@ public class CompilerImpl implements Compiler {
     public CompileStatus execute(ProcessBuilder processBuilder, String fileLocation,
                                  String inputFilePath, String outputFilePath,
                                  long timeInMillis) {
+        logger.info("Execution started");
+
+        processBuilder.redirectErrorStream(true);
         processBuilder.directory(new File(fileLocation));
         processBuilder.redirectInput(new File(inputFilePath));
-        processBuilder.redirectErrorStream(true);
         processBuilder.redirectOutput(new File(outputFilePath));
 
         try {
@@ -60,10 +64,11 @@ public class CompilerImpl implements Compiler {
             if (!process.waitFor(timeInMillis, TimeUnit.MILLISECONDS))
                 return CompileStatus.TIME_LIMIT_EXIT;
             int exitCode = process.exitValue();
-            if (exitCode != 0)
+            if (exitCode != 0) {
                 return CompileStatus.RUN_TIME_ERROR;
+            }
         } catch (Exception e) {
-            logger.info("Error in code compilation");
+            return CompileStatus.EXECUTION_ERROR;
         }
 
         return CompileStatus.EXECUTION_SUCCESS;

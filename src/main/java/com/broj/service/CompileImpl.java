@@ -25,11 +25,11 @@ public class CompileImpl implements Compile {
     @Override
     public CompileResponse compile(CompileRequest request) {
         ProcessBuilder processBuilder = ProcessBuilderFactory.getProcessBuilderForCompile(request.getSourceFileType(),
-                        PathUtil.fileNameFromPath(request.getSourceFilePath()),
-                        request.getUserName()); //what would be the target compiled file name ???
+                        request.getFileName(),
+                        request.getFileNameWithoutExtension()); //what would be the target compiled file name ???
 
         CompileStatus compileStatus = compiler.compile(processBuilder,
-                PathUtil.filePath(request.getSourceFilePath()));
+                request.getParentFilePath());
 
         if (compileStatus == CompileStatus.COMPILE_ERROR) {
             logger.info("{}", CompileStatus.COMPILE_ERROR);
@@ -38,13 +38,13 @@ public class CompileImpl implements Compile {
         logger.info("{}", CompileStatus.COMPILE_SUCCESS);
 
         ProcessBuilder executeProcess = ProcessBuilderFactory.getProcessBuilderForExecution(request.getSourceFileType(),
-                request.getUserName());
+                request.getFileNameWithoutExtension());
 
         CompileStatus executionStatus = compiler.execute(executeProcess,
-                PathUtil.filePath(request.getSourceFilePath()),
+                request.getParentFilePath(),
                 request.getInputFilePath(),
-                PathUtil.filePath(request.getSourceFilePath()) + "out.txt",
-                2000);
+                request.getParentFilePath() + "/out.txt", // output file should be define other way
+                request.getTimeLimit());
 
         logger.info("Execution status {}", executionStatus);
         return new CompileResponse(executionStatus);
