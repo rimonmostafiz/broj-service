@@ -30,25 +30,35 @@ public class CompileRequest {
     private long timeLimit;
 
     @Setter(AccessLevel.PRIVATE)
+    @Getter(AccessLevel.PRIVATE)
     private String fileName; // like A.java
 
     @Setter(AccessLevel.PRIVATE)
+    @Getter(AccessLevel.PRIVATE)
     private String fileNameWithoutExtension; // like A
 
     @Setter(AccessLevel.PRIVATE)
     private String parentFilePath;
 
-    public String getFileName() {
-        return fileName != null ? fileName :
-                (fileName = PathUtil.fileNameFromPath(sourceFilePath));
-    }
-
-    public String getFileNameWithoutExtension() {
-        if (fileNameWithoutExtension == null) {
-            String[] strings = getFileName().split("\\.");
-            fileNameWithoutExtension = strings[0];
+    /**
+     * @param var is 'true' the return String with file extension and
+     *            return only file name otherwise.
+     * @return file name with or without extension depending on var.
+     */
+    public String getFileName(boolean var) {
+        String f = null;
+        if (var) {
+            fileName = fileName != null ? fileName :
+                    (fileName = PathUtil.fileNameFromPath(sourceFilePath));
+            f = fileName;
+        } else {
+            if (fileNameWithoutExtension == null) {
+                String[] strings = getFileName().split("\\.");
+                fileNameWithoutExtension = strings[0];
+            }
+            f = fileNameWithoutExtension;
         }
-        return fileNameWithoutExtension;
+        return f;
     }
 
     public String getParentFilePath() {

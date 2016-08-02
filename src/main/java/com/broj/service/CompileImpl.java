@@ -25,8 +25,8 @@ public class CompileImpl implements Compile {
     @Override
     public CompileResponse compile(CompileRequest request) {
         ProcessBuilder processBuilder = ProcessBuilderFactory.getProcessBuilderForCompile(request.getSourceFileType(),
-                        request.getFileName(),
-                        request.getFileNameWithoutExtension()); //what would be the target compiled file name ???
+                        request.getFileName(true),
+                        request.getFileName(false)); //what would be the target compiled file name ???
 
         CompileStatus compileStatus = compiler.compile(processBuilder,
                 request.getParentFilePath());
@@ -38,7 +38,7 @@ public class CompileImpl implements Compile {
         logger.info("{}", CompileStatus.COMPILE_SUCCESS);
 
         ProcessBuilder executeProcess = ProcessBuilderFactory.getProcessBuilderForExecution(request.getSourceFileType(),
-                request.getFileNameWithoutExtension());
+                request.getFileName(false));
 
         CompileStatus executionStatus = compiler.execute(executeProcess,
                 request.getParentFilePath(),
