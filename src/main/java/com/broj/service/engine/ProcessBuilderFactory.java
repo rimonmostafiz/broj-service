@@ -17,8 +17,6 @@ public class ProcessBuilderFactory {
         else if (Language.JAVA.equalsIgnoreCase(language))
             processBuilder = new ProcessBuilder("javac", fileName);
 
-        // other language currently omitted
-
         return processBuilder;
     }
 
@@ -31,4 +29,10 @@ public class ProcessBuilderFactory {
 
         return processBuilder;
     }
+
+    public enum Task {
+        COMPILE,
+        EXECUTION
+    }
+
 }

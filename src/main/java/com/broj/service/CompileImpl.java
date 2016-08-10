@@ -25,44 +25,64 @@ public class CompileImpl implements Compile {
     @Autowired
     private DiffChecker diffChecker;
 
+    private CompileRequest request;
+
     @Override
     public CompileResponse compile(CompileRequest request) {
-        ProcessBuilder processBuilder = ProcessBuilderFactory.getProcessBuilderForCompile(request.getSourceFileType(),
-                        request.getFileName(true),
-                        request.getFileName(false)); //what would be the target compiled file name ???
+        this.request = request;
+        boolean flow = true;
+        CompileStatus status;
+        ProcessBuilder processBuilder = getProcessBuilder(ProcessBuilderFactory.Task.COMPILE);
+        ProcessBuilder executeProcess = getProcessBuilder(ProcessBuilderFactory.Task.EXECUTION);
 
-        CompileStatus compileStatus = compiler.compile(processBuilder,
-                request.getParentFilePath());
+        status = compile(processBuilder);
+        logger.info("{}", status);
+        if (status != CompileStatus.COMPILE_SUCCESS)
+            flow = false;
 
-        if (compileStatus == CompileStatus.COMPILE_ERROR) {
-            logger.info("{}", CompileStatus.COMPILE_ERROR);
-            return new CompileResponse(CompileStatus.COMPILE_ERROR);
+        if (flow) {
+            status = execution(executeProcess);
+            logger.info("{}", status);
+            if (status != CompileStatus.EXECUTION_SUCCESS)
+                flow = false;
         }
-        logger.info("{}", CompileStatus.COMPILE_SUCCESS);
 
-        ProcessBuilder executeProcess = ProcessBuilderFactory.getProcessBuilderForExecution(request.getSourceFileType(),
-                request.getFileName(false));
+        if (flow) {
+            status = diffCheck();
+            logger.info("{}", status);
+        }
 
-        CompileStatus executionStatus = compiler.execute(executeProcess,
+        return new CompileResponse(status);
+    }
+
+    private ProcessBuilder getProcessBuilder(ProcessBuilderFactory.Task task) {
+        ProcessBuilder processBuilder = null;
+        if (ProcessBuilderFactory.Task.COMPILE == task) {
+            processBuilder = ProcessBuilderFactory.getProcessBuilderForCompile(request.getSourceFileType(),
+                    request.getFileName(true),
+                    request.getFileName(false));
+        } else {
+            processBuilder = ProcessBuilderFactory.getProcessBuilderForExecution(request.getSourceFileType(),
+                    request.getFileName(false));
+        }
+        return processBuilder;
+    }
+
+    private CompileStatus compile(ProcessBuilder processBuilder) {
+        return compiler.compile(processBuilder, request.getParentFilePath());
+    }
+
+    private CompileStatus execution(ProcessBuilder processBuilder) {
+        return compiler.execute(processBuilder,
                 request.getParentFilePath(),
                 request.getInputFilePath(),
                 request.getParentFilePath() + "/out.txt", // output file should be define other way
                 request.getTimeLimit());
+    }
 
-        logger.info("Execution status {}", executionStatus);
-        switch (executionStatus) {
-            case EXECUTION_ERROR:
-                return new CompileResponse(executionStatus);
-            case TIME_LIMIT_EXIT:
-                return new CompileResponse(executionStatus);
-            case RUN_TIME_ERROR:
-                return new CompileResponse(executionStatus);
-        }
-
+    private CompileStatus diffCheck() {
         String codeOutput = IOUtils.fileToString(request.getParentFilePath() + "/out.txt");
         String output = IOUtils.fileToString(request.getOutputFilePath());
-        CompileStatus diffStatus = diffChecker.check(codeOutput, output);
-        logger.info("Diff Checker status {}", diffStatus);
-        return new CompileResponse(diffStatus);
+        return diffChecker.check(codeOutput, output);
     }
 }

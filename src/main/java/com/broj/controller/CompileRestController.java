@@ -23,10 +23,7 @@ public class CompileRestController {
     @ResponseBody
     @RequestMapping(value = "/compile", method = RequestMethod.POST)
     public ResponseEntity<?> compileRequest(@RequestBody CompileRequest compileRequest) {
-        logger.info("userName {}, srcType {}, srcFile {}, inputFile {}, outputFile {}",
-                compileRequest.getUserName(), compileRequest.getSourceFileType(),
-                compileRequest.getSourceFilePath(), compileRequest.getInputFilePath(),
-                compileRequest.getOutputFilePath());
+        logger.info("Hit in controller, {}", compileRequest);
 
         CompileResponse response = compile.compile(compileRequest);
 
