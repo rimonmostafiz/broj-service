@@ -14,7 +14,7 @@
         <jjwt.version>0.6.0</jjwt.version>
         <apache-commons.version>3.0</apache-commons.version>
         <slf4j>1.7.16</slf4j>
-        <jackson>2.7.3</jackson>
+        <jackson>2.11.1</jackson>
         <diff-patch-match>1.1</diff-patch-match>
         <kotlin.version>1.0.1-2</kotlin.version>
     </properties>
