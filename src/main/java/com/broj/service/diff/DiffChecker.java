@@ -3,7 +3,8 @@ package com.broj.service.diff;
 import com.broj.service.CompileStatus;
 
 /**
- * Created by seal on 8/3/16.
+ * @author Muztaba Hasanat
+ * @author Rimon Mostafiz
  */
 public interface DiffChecker {
 

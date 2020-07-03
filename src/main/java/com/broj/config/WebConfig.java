@@ -16,6 +16,10 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @author Muztaba Hasanat
+ * @author Rimon Mostafiz
+ */
 @Configuration
 @EnableWebMvc
 @ComponentScan("com.broj")

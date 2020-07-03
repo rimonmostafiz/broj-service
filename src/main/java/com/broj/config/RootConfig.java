@@ -4,7 +4,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Created by LynAs on 23-Jan-16
+ * @author Muztaba Hasanat
+ * @author Rimon Mostafiz
  */
 @Configuration
 @ComponentScan(basePackages={"com.broj"})

@@ -3,7 +3,8 @@ package com.broj.service.engine;
 import com.broj.service.CompileStatus;
 
 /**
- * Created by seal on 7/22/2016.
+ * @author Muztaba Hasanat
+ * @author Rimon Mostafiz
  */
 public interface Compiler {
 

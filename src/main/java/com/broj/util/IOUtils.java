@@ -7,7 +7,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Created by seal on 8/3/16.
+ * @author Muztaba Hasanat
+ * @author Rimon Mostafiz
  */
 public class IOUtils {
 
