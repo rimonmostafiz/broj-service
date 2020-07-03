@@ -14,7 +14,7 @@
         <jjwt.version>0.6.0</jjwt.version>
         <apache-commons.version>3.0</apache-commons.version>
         <slf4j>1.7.16</slf4j>
-        <jackson>2.7.3</jackson>
+        <jackson>2.11.1</jackson>
         <diff-patch-match>1.1</diff-patch-match>
         <kotlin.version>1.0.1-2</kotlin.version>
     </properties>
@@ -42,7 +42,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.36</version>
+            <version>8.0.16</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -52,7 +52,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>5.2.4.Final</version>
+            <version>5.3.5.Final</version>
         </dependency>
 
         <!--Utility for getter and setter-->
