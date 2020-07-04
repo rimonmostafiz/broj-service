@@ -1,30 +1,32 @@
-package com.broj.service;
+package com.rimonmostafiz.broj.service.compiler;
 
-import com.broj.model.CompileRequest;
-import com.broj.model.CompileResponse;
-import com.broj.service.diff.DiffChecker;
-import com.broj.service.engine.Compiler;
-import com.broj.service.engine.ProcessBuilderFactory;
-import com.broj.util.IOUtils;
+import com.rimonmostafiz.broj.model.CompileRequest;
+import com.rimonmostafiz.broj.model.CompileResponse;
+import com.rimonmostafiz.broj.service.diff.DiffChecker;
+import com.rimonmostafiz.broj.service.engine.Compiler;
+import com.rimonmostafiz.broj.service.engine.ProcessBuilderFactory;
+import com.rimonmostafiz.broj.util.CompileStatus;
+import com.rimonmostafiz.broj.util.IOUtils;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
  * @author Muztaba Hasanat
  * @author Rimon Mostafiz
  */
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class CompileImpl implements Compile {
 
     private static final Logger logger = LoggerFactory.getLogger(CompileImpl.class);
 
-    @Autowired
-    private Compiler compiler;
+    private final Compiler compiler;
 
-    @Autowired
-    private DiffChecker diffChecker;
+    private final DiffChecker diffChecker;
 
     private CompileRequest request;
 

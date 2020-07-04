@@ -1,6 +1,6 @@
-package com.broj.model;
+package com.rimonmostafiz.broj.model;
 
-import com.broj.util.PathUtil;
+import com.rimonmostafiz.broj.util.PathUtil;
 import lombok.*;
 
 /**

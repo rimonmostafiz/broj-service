@@ -1,4 +1,4 @@
-package com.broj.model;
+package com.rimonmostafiz.broj.model;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

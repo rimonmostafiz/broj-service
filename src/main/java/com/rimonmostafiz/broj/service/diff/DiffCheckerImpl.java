@@ -1,6 +1,6 @@
-package com.broj.service.diff;
+package com.rimonmostafiz.broj.service.diff;
 
-import com.broj.service.CompileStatus;
+import com.rimonmostafiz.broj.util.CompileStatus;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
