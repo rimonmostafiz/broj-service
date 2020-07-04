@@ -1,4 +1,4 @@
-package com.broj.util;
+package com.rimonmostafiz.broj.util;
 
 import com.google.common.io.Files;
 

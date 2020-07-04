@@ -1,6 +1,6 @@
-package com.broj.service.diff;
+package com.rimonmostafiz.broj.service.diff;
 
-import com.broj.service.CompileStatus;
+import com.rimonmostafiz.broj.util.CompileStatus;
 
 /**
  * @author Muztaba Hasanat

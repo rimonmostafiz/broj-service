@@ -1,5 +1,9 @@
-package com.broj.service;
+package com.rimonmostafiz.broj.util;
 
+/**
+ * @author Muztaba Hasanat
+ * @author Rimon Mostafiz
+ */
 public enum CompileStatus {
     COMPILE_SUCCESS,
     COMPILE_ERROR,
